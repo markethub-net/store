@@ -10,14 +10,16 @@
         header{background-color:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:1000}
         .logo{font-size:20px;font-weight:bold;color:#2c3e50}
         .nav-buttons{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-        .nav-btn{border:none;padding:8px 12px;border-radius:6px;font-size:12px;font-weight:bold;cursor:pointer;color:#fff;transition:opacity 0.3s}
-        .nav-btn:hover{opacity:0.85}
+        .nav-btn{border:none;padding:8px 12px;border-radius:6px;font-size:12px;font-weight:bold;cursor:pointer;color:#fff;text-decoration:none;display:inline-block;transition:opacity 0.3s}
+        .nav-btn:hover{opacity:0.85;color:#fff}
         .btn-home{background-color:#2c3e50;}
         .btn-member{background-color:#27ae60;}
         .btn-admin{background-color:#c53030;}
         .container{max-width:1100px;margin:20px auto;padding:0 15px}
+        
         .dashboard-panel{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);margin-top:15px;display:none;text-align:right}
-        .dashboard-panel.active{display:block}
+        .dashboard-panel:target, .dashboard-panel.active{display:block}
+        
         .dashboard-panel h2{color:#2c3e50;margin-bottom:15px;font-size:18px;border-bottom:2px solid #27ae60;padding-bottom:8px}
         .dash-card-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
         .dash-card{background:#f9fbfb;padding:12px;border-radius:8px;flex:1;min-width:140px;border:1px solid #e2e8f0}
@@ -44,19 +46,19 @@
 <header>
     <div class="logo">Market-hub</div>
     <div class="nav-buttons">
-        <button class="nav-btn btn-home" onclick="showSection('home')">الرئيسية</button>
-        <button class="nav-btn btn-member" onclick="showSection('member-dash')">👤 لوحة العضو</button>
-        <button class="nav-btn btn-admin" onclick="showSection('admin-dash')">⚙️ لوحة المدير</button>
+        <a href="#home" class="nav-btn btn-home" onclick="showSection('home')">الرئيسية</a>
+        <a href="#member-dash" class="nav-btn btn-member" onclick="showSection('member-dash')">👤 لوحة العضو</a>
+        <a href="#admin-dash" class="nav-btn btn-admin" onclick="showSection('admin-dash')">⚙️ لوحة المدير</a>
     </div>
 </header>
 
 <div class="container">
     <!-- القسم الرئيسي -->
-    <section id="home-section" class="dashboard-panel active">
+    <section id="home" class="dashboard-panel active">
         <div class="hero">
             <h1>المنصة الآمنة الأولى للبيع والشراء والوساطة المالية</h1>
             <p>نحمي حقوق البائع والمشتري بالكامل، نظام وساطة ذكي، ودعم طرق الدفع المحلية (مصرف العراق الأول FIB وأسياسيل حوالة).</p>
-            <button class="btn" onclick="showSection('member-dash')">ابدأ التداول الآمن الآن</button>
+            <a href="#member-dash" class="btn" onclick="showSection('member-dash')">ابدأ التداول الآمن الآن</a>
         </div>
         <div class="features">
             <h2>طرق الدفع والضمان المعتمدة</h2>
@@ -78,7 +80,7 @@
     </section>
 
     <!-- لوحة تحكم العضو -->
-    <section id="member-dash-section" class="dashboard-panel">
+    <section id="member-dash" class="dashboard-panel">
         <h2>لوحة تحكم العضو (إضافة منتج أو عرض جديد)</h2>
         <div class="dash-card-grid">
             <div class="dash-card">
@@ -111,7 +113,7 @@
     </section>
 
     <!-- لوحة تحكم المدير -->
-    <section id="admin-dash-section" class="dashboard-panel">
+    <section id="admin-dash" class="dashboard-panel">
         <h2>لوحة تحكم المشرف (إدارة المنتجات وطرق الدفع)</h2>
         <div class="dash-card-grid">
             <div class="dash-card">
@@ -138,12 +140,19 @@
 <script>
 function showSection(sectionId) {
     document.querySelectorAll('.dashboard-panel').forEach(p => p.classList.remove('active'));
-    const target = document.getElementById(sectionId + '-section');
+    const target = document.getElementById(sectionId);
     if (target) {
         target.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash) {
+        const id = window.location.hash.substring(1);
+        showSection(id);
+    }
+});
 
 function submitItem() {
     const titleInput = document.getElementById('item-title-input');
@@ -214,7 +223,6 @@ function rejectItem(index) {
     loadAdminPending();
 }
 
-// عداد الزيارات
 let visits = localStorage.getItem('market_hub_visits') || 105;
 visits = parseInt(visits) + 1;
 localStorage.setItem('market_hub_visits', visits);
