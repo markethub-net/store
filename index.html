@@ -1,102 +1,101 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="html-root">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market-hub - منصة الوساطة التجارية الآمنة</title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:Tahoma,sans-serif;background-color:#f7f9f8;color:#333;line-height:1.6}
-        header{background-color:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:1000}
+        body{font-family:Tahoma,sans-serif;background-color:#f4f7f6;color:#333;line-height:1.6}
+        header{background-color:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:1000}
         .logo{font-size:20px;font-weight:bold;color:#2c3e50}
         .nav-buttons{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-        .nav-btn{border:none;padding:8px 12px;border-radius:6px;font-size:12px;font-weight:bold;cursor:pointer;color:#fff;text-decoration:none;display:inline-block;transition:opacity 0.3s}
+        .nav-btn{border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:bold;cursor:pointer;color:#fff;text-decoration:none;display:inline-block;transition:opacity 0.3s}
         .nav-btn:hover{opacity:0.85;color:#fff}
         .btn-home{background-color:#2c3e50;}
+        .btn-market{background-color:#2980b9;}
         .btn-member{background-color:#27ae60;}
         .btn-admin{background-color:#c53030;}
+        
         .container{max-width:1100px;margin:20px auto;padding:0 15px}
         
-        .dashboard-panel{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);margin-top:15px;display:none;text-align:right}
+        .dashboard-panel{background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);margin-top:15px;display:none;text-align:right}
         .dashboard-panel:target, .dashboard-panel.active{display:block}
         
-        .dashboard-panel h2{color:#2c3e50;margin-bottom:15px;font-size:18px;border-bottom:2px solid #27ae60;padding-bottom:8px}
-        .dash-card-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
-        .dash-card{background:#f9fbfb;padding:12px;border-radius:8px;flex:1;min-width:140px;border:1px solid #e2e8f0}
-        .dash-card h4{font-size:13px;color:#2c3e50;margin-bottom:4px}
-        .dash-card p{font-size:15px;font-weight:bold;color:#27ae60}
-        .form-group{margin-bottom:12px;text-align:right}
-        .form-group label{display:block;font-size:13px;color:#2c3e50;margin-bottom:5px}
-        .form-group input, .form-group select{width:100%;padding:9px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;background:#fff}
+        h2{color:#2c3e50;margin-bottom:15px;font-size:18px;border-bottom:2px solid #27ae60;padding-bottom:8px}
+        
+        .dash-card-grid{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+        .dash-card{background:#f9fbfb;padding:15px;border-radius:8px;flex:1;min-width:150px;border:1px solid #e2e8f0}
+        .dash-card h4{font-size:13px;color:#2c3e50;margin-bottom:5px}
+        .dash-card p{font-size:18px;font-weight:bold;color:#27ae60}
+        
+        .form-group{margin-bottom:15px;text-align:right}
+        .form-group label{display:block;font-size:13px;color:#2c3e50;margin-bottom:6px;font-weight:bold}
+        .form-group input, .form-group select, .form-group textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;background:#fff}
+        
         .btn{background-color:#27ae60;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:13px;cursor:pointer;border:none;display:inline-block}
         .btn:hover{background-color:#219653}
-        .hero{text-align:center;padding:20px 0}
-        .hero h1{font-size:22px;color:#2c3e50;margin-bottom:10px}
-        .hero p{color:#666;font-size:13px;margin-bottom:15px}
-        .features{margin-top:25px;text-align:center}
-        .feature-grid{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-        .feature-card{background:#fff;padding:15px;border-radius:10px;flex:1;min-width:220px;box-shadow:0 3px 15px rgba(0,0,0,0.04);border-top:4px solid #27ae60;text-align:right}
-        .feature-card h3{color:#2c3e50;margin-bottom:6px;font-size:14px}
-        .feature-card p{color:#666;font-size:11px}
-        footer{text-align:center;padding:15px;background-color:#fff;color:#888;font-size:12px;margin-top:25px;border-top:1px solid #eaeaea}
+        
+        .hero{text-align:center;padding:30px 0}
+        .hero h1{font-size:24px;color:#2c3e50;margin-bottom:10px}
+        .hero p{color:#666;font-size:14px;margin-bottom:20px}
+        
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px;margin-top:15px}
+        .product-card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:15px;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+        .product-card h3{font-size:16px;color:#2c3e50;margin-bottom:8px}
+        .product-card p{color:#666;font-size:13px;margin-bottom:10px}
+        .product-price{font-weight:bold;color:#27ae60;font-size:15px;margin-bottom:10px}
+        .payment-badge{display:inline-block;background:#e1f5fe;color:#0288d1;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:bold;margin-bottom:10px}
+        
+        footer{text-align:center;padding:20px;background-color:#fff;color:#888;font-size:12px;margin-top:30px;border-top:1px solid #eaeaea}
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">Market-hub</div>
+    <div class="logo">Market-hub 🛡️</div>
     <div class="nav-buttons">
         <a href="#home" class="nav-btn btn-home" onclick="showSection('home')">الرئيسية</a>
+        <a href="#market" class="nav-btn btn-market" onclick="showSection('market')">🛒 سوق السلع</a>
         <a href="#member-dash" class="nav-btn btn-member" onclick="showSection('member-dash')">👤 لوحة العضو</a>
         <a href="#admin-dash" class="nav-btn btn-admin" onclick="showSection('admin-dash')">⚙️ لوحة المدير</a>
     </div>
 </header>
 
 <div class="container">
-    <!-- القسم الرئيسي -->
+    <!-- 1. الرئيسية -->
     <section id="home" class="dashboard-panel active">
         <div class="hero">
-            <h1>المنصة الآمنة الأولى للبيع والشراء والوساطة المالية</h1>
-            <p>نحمي حقوق البائع والمشتري بالكامل، نظام وساطة ذكي، ودعم طرق الدفع المحلية (مصرف العراق الأول FIB وأسياسيل حوالة).</p>
-            <a href="#member-dash" class="btn" onclick="showSection('member-dash')">ابدأ التداول الآمن الآن</a>
-        </div>
-        <div class="features">
-            <h2>طرق الدفع والضمان المعتمدة</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>1. مصرف العراق الأول (FIB)</h3>
-                    <p>تحويل مباشر وآمن عبر تطبيق FIB مع نظام حماية الوساطة المالية.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>2. أسياسيل حوالة / زين كاش</h3>
-                    <p>تحويل وسداد سريع عبر خدمات الدفع المحمول المعتمدة في العراق.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>3. مراجعة المشرف للسلع</h3>
-                    <p>لا يتم نشر أي إعلان إلا بعد مراجعته والموافقة عليه حصرياً من الإدارة.</p>
-                </div>
-            </div>
+            <h1>منصة الوساطة التجارية الآمنة في العراق</h1>
+            <p>نضمن حقوق البائع والمشتري بالكامل مع دعم طرق الدفع المحلية (FIB، أسياسيل حوالة، زين كاش).</p>
+            <a href="#member-dash" class="btn" onclick="showSection('member-dash')">أضف سلعتك للبيع الآن</a>
         </div>
     </section>
 
-    <!-- لوحة تحكم العضو -->
-    <section id="member-dash" class="dashboard-panel">
-        <h2>لوحة تحكم العضو (إضافة منتج أو عرض جديد)</h2>
-        <div class="dash-card-grid">
-            <div class="dash-card">
-                <h4>حالة النشر</h4>
-                <p style="color:#d97706;">يتطلب موافقة المشرف</p>
-            </div>
+    <!-- 2. سوق السلع المعتمدة -->
+    <section id="market" class="dashboard-panel">
+        <h2>سوق المنتجات والخدمات المعتمدة</h2>
+        <p style="font-size:13px;color:#666;margin-bottom:15px;">جميع المنتجات هنا تمت مراجعتها والاعتماد رسمياً من قبل الإدارة لضمان أمان الوساطة.</p>
+        <div id="approved-products-container" class="products-grid">
+            <p style="color:#888;font-size:13px;">لا توجد منتجات معروضة في السوق حالياً. كن أول المضيفين عبر لوحة العضو!</p>
         </div>
-        <div style="background:#f1f5f9;padding:15px;border-radius:8px;">
-            <h3 style="font-size:14px;color:#2c3e50;margin-bottom:10px;">أضف عرضك مع اختيار طريقة الدفع المفضلة</h3>
+    </section>
+
+    <!-- 3. لوحة تحكم العضو -->
+    <section id="member-dash" class="dashboard-panel">
+        <h2>لوحة تحكم العضو (إضافة منتج جديد للوساطة)</h2>
+        <div style="background:#f1f5f9;padding:20px;border-radius:8px;">
             <div class="form-group">
                 <label>عنوان المنتج أو الخدمة</label>
-                <input type="text" id="item-title-input" placeholder="مثال: حساب لعبة، تصميم، سلعة...">
+                <input type="text" id="item-title-input" placeholder="مثال: حساب لعبة، برمجة، سلعة...">
             </div>
             <div class="form-group">
-                <label>السعر ($ أو د.ع)</label>
-                <input type="text" id="item-price-input" placeholder="مثال: 100$ أو 150,000 IQD">
+                <label>السعر</label>
+                <input type="text" id="item-price-input" placeholder="مثال: 50$ أو 75,000 IQD">
+            </div>
+            <div class="form-group">
+                <label>وصف مختصر للسلعة</label>
+                <textarea id="item-desc-input" rows="3" placeholder="تفاصيل المنتج أو شروط التسليم..."></textarea>
             </div>
             <div class="form-group">
                 <label>طريقة الدفع المفضلة للوساطة</label>
@@ -104,29 +103,28 @@
                     <option value="مصرف العراق الأول (FIB)">مصرف العراق الأول (FIB)</option>
                     <option value="أسياسيل حوالة (AsiaHawala)">أسياسيل حوالة (AsiaHawala)</option>
                     <option value="زين كاش العراق (ZainCash)">زين كاش العراق (ZainCash)</option>
-                    <option value="محفظة المنصة (Platform Wallet)">محفظة المنصة (Platform Wallet)</option>
                 </select>
             </div>
-            <button class="btn" onclick="submitItem()">إرسال للإدارة للمراجعة</button>
-            <p id="submit-msg" style="font-size:12px;color:#27ae60;margin-top:8px;font-weight:bold;"></p>
+            <button class="btn" onclick="submitItem()">إرسال للإدارة للمراجعة والنشر</button>
+            <p id="submit-msg" style="font-size:12px;color:#27ae60;margin-top:10px;font-weight:bold;"></p>
         </div>
     </section>
 
-    <!-- لوحة تحكم المدير -->
+    <!-- 4. لوحة تحكم المدير -->
     <section id="admin-dash" class="dashboard-panel">
-        <h2>لوحة تحكم المشرف (إدارة المنتجات وطرق الدفع)</h2>
+        <h2>لوحة تحكم المشرف (إدارة الطلبات والسلع)</h2>
         <div class="dash-card-grid">
             <div class="dash-card">
                 <h4>إجمالي الزيارات</h4>
                 <p id="admin-visits-val">0</p>
             </div>
             <div class="dash-card">
-                <h4>العروض بانتظار الموافقة</h4>
+                <h4>الطلبات بانتظار الموافقة</h4>
                 <p id="pending-count">0</p>
             </div>
         </div>
         <div style="background:#fff5f5;border:1px solid #feb2b2;padding:15px;border-radius:8px;">
-            <h3 style="font-size:14px;color:#c53030;margin-bottom:10px;">طلبات الأعضاء المعلقة وطريقة الدفع المختارة</h3>
+            <h3 style="font-size:14px;color:#c53030;margin-bottom:10px;">السلع المعلقة التي تتطلب مراجعتك</h3>
             <div id="admin-pending-list" style="font-size:13px;color:#555;">لا توجد منتجات معلقة حالياً.</div>
         </div>
     </section>
@@ -152,31 +150,29 @@ window.addEventListener('DOMContentLoaded', () => {
         const id = window.location.hash.substring(1);
         showSection(id);
     }
+    loadAdminPending();
+    loadApprovedProducts();
 });
 
 function submitItem() {
-    const titleInput = document.getElementById('item-title-input');
-    const priceInput = document.getElementById('item-price-input');
-    const paymentSelect = document.getElementById('item-payment-method');
-    
-    if (!titleInput || !priceInput || !paymentSelect) return;
-
-    const title = titleInput.value.trim();
-    const price = priceInput.value.trim();
-    const payment = paymentSelect.value;
+    const title = document.getElementById('item-title-input').value.trim();
+    const price = document.getElementById('item-price-input').value.trim();
+    const desc = document.getElementById('item-desc-input').value.trim();
+    const payment = document.getElementById('item-payment-method').value;
 
     if (!title || !price) {
-        alert('يرجى إدخال عنوان المنتج والسعر أولاً.');
+        alert('يرجى إدخال عنوان المنتج والسعر على الأقل.');
         return;
     }
 
     let pendingItems = JSON.parse(localStorage.getItem('market_pending_items') || '[]');
-    pendingItems.push({ title, price, payment, id: Date.now() });
+    pendingItems.push({ title, price, desc, payment, id: Date.now() });
     localStorage.setItem('market_pending_items', JSON.stringify(pendingItems));
 
-    titleInput.value = '';
-    priceInput.value = '';
-    document.getElementById('submit-msg').textContent = "✅ تم إرسال عرضك بنجاح مع طريقة الدفع المختارة! بانتظار موافقة المشرف.";
+    document.getElementById('item-title-input').value = '';
+    document.getElementById('item-price-input').value = '';
+    document.getElementById('item-desc-input').value = '';
+    document.getElementById('submit-msg').textContent = "✅ تم إرسال عرضك بنجاح! سيتم عرضه في السوق فور موافقة المشرف.";
     
     loadAdminPending();
 }
@@ -196,11 +192,15 @@ function loadAdminPending() {
 
     let html = "";
     pendingItems.forEach((item, index) => {
-        html += `<div style="background:#fff;padding:10px;margin-bottom:8px;border-radius:6px;border:1px solid #cbd5e1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-            <span><b>${item.title}</b> - ${item.price} <br><small style="color:#27ae60;font-weight:bold;">طريقة الدفع: ${item.payment}</small></span>
+        html += `<div style="background:#fff;padding:12px;margin-bottom:8px;border-radius:6px;border:1px solid #cbd5e1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
             <div>
-                <button onclick="approveItem(${index})" style="background:#27ae60;color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;margin-left:5px;font-size:12px;">موافقة ونشر</button>
-                <button onclick="rejectItem(${index})" style="background:#c53030;color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;font-size:12px;">رفض وحذف</button>
+                <b>${item.title}</b> - <span style="color:#27ae60">${item.price}</span><br>
+                <small style="color:#666">${item.desc || 'بلا وصف'}</small><br>
+                <span style="font-size:11px;color:#0288d1;font-weight:bold;">طريقة الدفع: ${item.payment}</span>
+            </div>
+            <div>
+                <button onclick="approveItem(${index})" style="background:#27ae60;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;margin-left:5px;font-size:12px;">موافقة ونشر</button>
+                <button onclick="rejectItem(${index})" style="background:#c53030;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">رفض وحذف</button>
             </div>
         </div>`;
     });
@@ -209,10 +209,17 @@ function loadAdminPending() {
 
 function approveItem(index) {
     let pendingItems = JSON.parse(localStorage.getItem('market_pending_items') || '[]');
-    pendingItems.splice(index, 1);
+    let approvedItems = JSON.parse(localStorage.getItem('market_approved_items') || '[]');
+    
+    let itemToMove = pendingItems.splice(index, 1)[0];
+    approvedItems.push(itemToMove);
+    
     localStorage.setItem('market_pending_items', JSON.stringify(pendingItems));
-    alert('تمت الموافقة على المنتج ونشره بنجاح!');
+    localStorage.setItem('market_approved_items', JSON.stringify(approvedItems));
+    
+    alert('تمت الموافقة على المنتج ونشره في السوق بنجاح!');
     loadAdminPending();
+    loadApprovedProducts();
 }
 
 function rejectItem(index) {
@@ -223,15 +230,35 @@ function rejectItem(index) {
     loadAdminPending();
 }
 
+function loadApprovedProducts() {
+    let approvedItems = JSON.parse(localStorage.getItem('market_approved_items') || '[]');
+    let container = document.getElementById('approved-products-container');
+    if (!container) return;
+
+    if (approvedItems.length === 0) {
+        container.innerHTML = '<p style="color:#888;font-size:13px;">لا توجد منتجات معروضة في السوق حالياً.</p>';
+        return;
+    }
+
+    let html = "";
+    approvedItems.forEach(item => {
+        html += `<div class="product-card">
+            <span class="payment-badge">الدفع: ${item.payment}</span>
+            <h3>${item.title}</h3>
+            <p>${item.desc || 'لا يوجد وصف إضافي.'}</p>
+            <div class="product-price">${item.price}</div>
+            <button class="btn" onclick="alert('لإتمام الشراء الآمن عبر الوساطة، يرجى التواصل مع الإدارة وتحويل المبلغ عبر طريقة الدفع المحددة.')">شراء عبر الوساطة 🛡️</button>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+// العداد التلقائي
 let visits = localStorage.getItem('market_hub_visits') || 105;
 visits = parseInt(visits) + 1;
 localStorage.setItem('market_hub_visits', visits);
-let visitorCountElem = document.getElementById('visitor-count');
-if (visitorCountElem) visitorCountElem.textContent = "📊 إحصائيات الإدارة - الزيارات الكلية: " + visits;
-let adminVisits = document.getElementById('admin-visits-val');
-if (adminVisits) adminVisits.textContent = visits;
-
-loadAdminPending();
+document.getElementById('visitor-count').textContent = "📊 إحصائيات المنصة - الزيارات الكلية: " + visits;
+document.getElementById('admin-visits-val').textContent = visits;
 </script>
 
 </body>
