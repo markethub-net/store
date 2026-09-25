@@ -115,7 +115,7 @@
         <h2>لوحة تحكم المشرف (إدارة الطلبات والسلع)</h2>
         <div class="dash-card-grid">
             <div class="dash-card">
-                <h4>إجمالي الزيارات</h4>
+                <h4>إجمالي زيارات المنصة</h4>
                 <p id="admin-visits-val">0</p>
             </div>
             <div class="dash-card">
@@ -132,7 +132,6 @@
 
 <footer>
     <p>جميع الحقوق محفوظة © 2026 Market-hub</p>
-    <div id="visitor-count" style="font-size:11px;color:#888;margin-top:5px;"></div>
 </footer>
 
 <script>
@@ -253,12 +252,12 @@ function loadApprovedProducts() {
     container.innerHTML = html;
 }
 
-// العداد التلقائي
+// العداد التلقائي (يعمل في الخلفية ويظهر في لوحة المدير فقط)
 let visits = localStorage.getItem('market_hub_visits') || 105;
 visits = parseInt(visits) + 1;
 localStorage.setItem('market_hub_visits', visits);
-document.getElementById('visitor-count').textContent = "📊 إحصائيات المنصة - الزيارات الكلية: " + visits;
-document.getElementById('admin-visits-val').textContent = visits;
+let adminVisits = document.getElementById('admin-visits-val');
+if (adminVisits) adminVisits.textContent = visits;
 </script>
 
 </body>
