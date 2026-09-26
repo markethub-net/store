@@ -41,7 +41,8 @@
         .hero p{color:#666;font-size:14px;margin-bottom:20px}
         
         .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px;margin-top:15px}
-        .product-card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:15px;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+        .product-card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:15px;box-shadow:0 2px 5px rgba(0,0,0,0.02);display:flex;flex-direction:column;justify-content:space-between}
+        .product-img{width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:10px;background:#eee}
         .product-card h3{font-size:16px;color:#2c3e50;margin-bottom:8px}
         .product-card p{color:#666;font-size:13px;margin-bottom:10px}
         .product-price{font-weight:bold;color:#27ae60;font-size:15px;margin-bottom:10px}
@@ -94,8 +95,12 @@
                 <input type="text" id="item-price-input" placeholder="مثال: 50$ أو 75,000 IQD">
             </div>
             <div class="form-group">
+                <label>رابط صورة المنتج (رابط مباشر للصورة)</label>
+                <input type="url" id="item-image-input" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="form-group">
                 <label>وصف مختصر للسلعة</label>
-                <textarea id="item-desc-input" rows="3" placeholder="تفاصيل المنتج أو شروط التسليم..."></textarea>
+                <textarea id="item-desc-input" rows="3" placeholder="تفاصيل المنتج أو شروط التسليم... (تجنب وضع أرقام هواتف لئلا يُرفض الطلب)"></textarea>
             </div>
             <div class="form-group">
                 <label>طريقة الدفع المفضلة للوساطة</label>
@@ -124,7 +129,7 @@
             </div>
         </div>
         <div style="background:#fff5f5;border:1px solid #feb2b2;padding:15px;border-radius:8px;">
-            <h3 style="font-size:14px;color:#c53030;margin-bottom:10px;">السلع المعلقة التي تتطلب مراجعتك</h3>
+            <h3 style="font-size:14px;color:#c53030;margin-bottom:10px;">السلع المعلقة التي تتطلب مراجعتك (تأكد من خلوها من أرقام الهواتف)</h3>
             <div id="admin-pending-list" style="font-size:13px;color:#555;">لا توجد منتجات معلقة حالياً.</div>
         </div>
     </section>
@@ -156,6 +161,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function submitItem() {
     const title = document.getElementById('item-title-input').value.trim();
     const price = document.getElementById('item-price-input').value.trim();
+    const image = document.getElementById('item-image-input').value.trim();
     const desc = document.getElementById('item-desc-input').value.trim();
     const payment = document.getElementById('item-payment-method').value;
 
@@ -165,11 +171,12 @@ function submitItem() {
     }
 
     let pendingItems = JSON.parse(localStorage.getItem('market_pending_items') || '[]');
-    pendingItems.push({ title, price, desc, payment, id: Date.now() });
+    pendingItems.push({ title, price, image, desc, payment, id: Date.now() });
     localStorage.setItem('market_pending_items', JSON.stringify(pendingItems));
 
     document.getElementById('item-title-input').value = '';
     document.getElementById('item-price-input').value = '';
+    document.getElementById('item-image-input').value = '';
     document.getElementById('item-desc-input').value = '';
     document.getElementById('submit-msg').textContent = "✅ تم إرسال عرضك بنجاح! سيتم عرضه في السوق فور موافقة المشرف.";
     
@@ -191,9 +198,11 @@ function loadAdminPending() {
 
     let html = "";
     pendingItems.forEach((item, index) => {
+        let imgPreview = item.image ? `<br><img src="${item.image}" style="width:80px;height:60px;object-fit:cover;border-radius:4px;margin-top:5px;" alt="صورة المعاينة">` : '';
         html += `<div style="background:#fff;padding:12px;margin-bottom:8px;border-radius:6px;border:1px solid #cbd5e1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
             <div>
-                <b>${item.title}</b> - <span style="color:#27ae60">${item.price}</span><br>
+                <b>${item.title}</b> - <span style="color:#27ae60">${item.price}</span>
+                ${imgPreview}<br>
                 <small style="color:#666">${item.desc || 'بلا وصف'}</small><br>
                 <span style="font-size:11px;color:#0288d1;font-weight:bold;">طريقة الدفع: ${item.payment}</span>
             </div>
@@ -225,7 +234,7 @@ function rejectItem(index) {
     let pendingItems = JSON.parse(localStorage.getItem('market_pending_items') || '[]');
     pendingItems.splice(index, 1);
     localStorage.setItem('market_pending_items', JSON.stringify(pendingItems));
-    alert('تم رفض وحذف المنتج.');
+    alert('تم رفض وحذف المنتج (محتوى غير مسموح أو أرقام تواصل).');
     loadAdminPending();
 }
 
@@ -241,18 +250,24 @@ function loadApprovedProducts() {
 
     let html = "";
     approvedItems.forEach(item => {
+        let imgTag = item.image ? `<img src="${item.image}" class="product-img" alt="صورة السلعة">` : '';
         html += `<div class="product-card">
-            <span class="payment-badge">الدفع: ${item.payment}</span>
-            <h3>${item.title}</h3>
-            <p>${item.desc || 'لا يوجد وصف إضافي.'}</p>
-            <div class="product-price">${item.price}</div>
-            <button class="btn" onclick="alert('لإتمام الشراء الآمن عبر الوساطة، يرجى التواصل مع الإدارة وتحويل المبلغ عبر طريقة الدفع المحددة.')">شراء عبر الوساطة 🛡️</button>
+            <div>
+                ${imgTag}
+                <span class="payment-badge">الدفع: ${item.payment}</span>
+                <h3>${item.title}</h3>
+                <p>${item.desc || 'لا يوجد وصف إضافي.'}</p>
+            </div>
+            <div>
+                <div class="product-price">${item.price}</div>
+                <button class="btn" style="width:100%" onclick="alert('لإتمام الشراء الآمن عبر الوساطة، يرجى التواصل مع الإدارة وتحويل المبلغ عبر طريقة الدفع المحددة.')">شراء عبر الوساطة 🛡️</button>
+            </div>
         </div>`;
     });
     container.innerHTML = html;
 }
 
-// العداد التلقائي (يعمل في الخلفية ويظهر في لوحة المدير فقط)
+// العداد التلقائي
 let visits = localStorage.getItem('market_hub_visits') || 105;
 visits = parseInt(visits) + 1;
 localStorage.setItem('market_hub_visits', visits);
